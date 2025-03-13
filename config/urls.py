@@ -5,8 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('core.urls')),
-    path('api/data/', include('data_manager.urls')),
+    path('api/', include('apps.core.urls')),  # Changed from 'core.urls' to 'apps.core.urls'
+    # path('api/data/', include('apps.data_manager.urls')),  # If this app exists, update path here too
 ]
 
 # Serve media files in development
