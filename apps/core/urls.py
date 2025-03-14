@@ -1,8 +1,6 @@
 from django.urls import path
-from apps.core import views
+from .views import HealthCheckView
 
 urlpatterns = [
-    # Add your URL patterns here
-    # For example:
-    # path('', views.index, name='index'),
+    path('health/', HealthCheckView.as_view(), name='health_check'),
 ]

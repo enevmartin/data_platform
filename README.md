@@ -41,7 +41,7 @@ This project combines Django for data modeling and administration with FastAPI f
 
 2. Create a `.env` file based on the example:
    ```bash
-   cp .env.example .env
+   cp .env .env
    # Edit .env with your configuration
    ```
 
