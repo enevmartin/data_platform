@@ -84,6 +84,6 @@ LOGGING = {
     },
 }
 
-# Use whitenoise for static files in production
+# Use whitenoise for static_files files in production
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

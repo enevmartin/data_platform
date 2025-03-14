@@ -1,21 +1,22 @@
 # config/settings/base.py - Optimized version
+from decouple import config
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-if not SECRET_KEY and not os.environ.get('DJANGO_DEVELOPMENT', False):
-    raise ValueError("SECRET_KEY environment variable is not set")
+ENVIRONMENT = config('ENVIRONMENT', default='development')
+IS_DEVELOPMENT = ENVIRONMENT.lower() == 'development'
+
+SECRET_KEY = config('SECRET_KEY')
+if not SECRET_KEY and not IS_DEVELOPMENT:
+    raise ValueError("SECRET_KEY environment variable must be set in production mode")
 elif not SECRET_KEY:
     SECRET_KEY = 'dev-only-insecure-key-do-not-use-in-production'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
-
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+DEBUG = config('DEBUG', default='True' if IS_DEVELOPMENT else 'False', cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1' if IS_DEVELOPMENT else '').split(',')
+# Rest of your settings...
 
 # Application definition
 DJANGO_APPS = [
@@ -93,10 +94,12 @@ CACHES = {
     }
 }
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = [BASE_DIR / 'static_files']  # For non-app static files
+import os
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Used for `collectstatic`
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Place where you store static files
+
 
 # Media files
 MEDIA_URL = '/media/'

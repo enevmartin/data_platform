@@ -42,8 +42,8 @@ app.include_router(institutions.router, prefix="/api/v1")
 app.include_router(datasets.router, prefix="/api/v1")
 app.include_router(data_files.router, prefix="/api/v1")
 #
-# # Mount static files
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+# # Mount static_files files
+# app.mount("/static_files", StaticFiles(directory="static_files"), name="static_files")
 #
 #
 # @app.get("/", include_in_schema=False)
