@@ -5,6 +5,7 @@ from .mixins import SoftDeletableMixin
 from .managers import DatasetManager, DatasetQuerySet
 
 
+# Example update for Dataset model
 class Dataset(TimeStampedModel, SoftDeletableMixin):
     name = models.CharField(max_length=255, db_index=True)
     description = models.TextField(blank=True)
@@ -23,6 +24,13 @@ class Dataset(TimeStampedModel, SoftDeletableMixin):
             models.Index(fields=['name', 'institution']),
             models.Index(fields=['is_active']),
         ]
+        verbose_name = 'Dataset'
+        verbose_name_plural = 'Datasets'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('dataset-detail', kwargs={'pk': self.pk})

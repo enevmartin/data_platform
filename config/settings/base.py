@@ -18,6 +18,15 @@ DEBUG = config('DEBUG', default='True' if IS_DEVELOPMENT else 'False', cast=bool
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1' if IS_DEVELOPMENT else '').split(',')
 # Rest of your settings...
 
+
+# For admin site optimization
+ADMIN_SITE_HEADER = "Data Platform Admin"
+ADMIN_SITE_TITLE = "Data Platform"
+ADMIN_INDEX_TITLE = "Administration"
+
+
+
+
 # Application definition
 DJANGO_APPS = [
     'django.contrib.admin',
