@@ -24,7 +24,29 @@ ADMIN_SITE_HEADER = "Data Platform Admin"
 ADMIN_SITE_TITLE = "Data Platform"
 ADMIN_INDEX_TITLE = "Administration"
 
+# config/settings/base.py
+# Add these configurations
 
+# File storage settings
+STORAGE_BACKEND = os.environ.get('STORAGE_BACKEND', 'local')
+STORAGE_OPTIONS = {
+    'local': {
+        'ROOT_DIR': os.path.join(BASE_DIR, 'media'),
+    },
+    's3': {
+        'BUCKET': os.environ.get('S3_BUCKET'),
+        'ACCESS_KEY': os.environ.get('S3_ACCESS_KEY'),
+        'SECRET_KEY': os.environ.get('S3_SECRET_KEY'),
+        'REGION': os.environ.get('S3_REGION', 'us-east-1'),
+    }
+}
+
+# Celery settings
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 
 # Application definition

@@ -1,0 +1,39 @@
+# fastapi/schemas/models.py
+from datetime import datetime
+from enum import Enum
+from typing import Optional
+
+from pydantic import BaseModel
+
+
+class FileType(str, Enum):
+    CSV = "csv"
+    EXCEL = "excel"
+    PDF = "pdf"
+    PARQUET = "parquet"
+
+
+class FileStatus(str, Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    PROCESSED = "processed"
+    FAILED = "failed"
+
+
+class DataFileBase(BaseModel):
+    name: str
+    file_type: FileType
+    status: FileStatus = FileStatus.PENDING
+
+
+class DataFileCreate(DataFileBase):
+    dataset_id: int
+
+
+class DataFileResponse(DataFileBase):
+    id: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+
+    class Config:
+        orm_mode = True
