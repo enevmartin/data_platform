@@ -1,64 +1,37 @@
-import logging
-import os
-from typing import Optional
-
+# apps/core/processors/factory.py
+from typing import Dict, Any
+from .base import BaseProcessor
 from .csv_processor import CSVProcessor
 from .excel_processor import ExcelProcessor
-from .pdf_processor import PDFProcessor
 from .parquet_processor import ParquetProcessor
-
-logger = logging.getLogger(__name__)
-
-
-def get_processor_for_filetype(file_type: str):
-    """
-    Get the appropriate processor for the file type.
-
-    Args:
-        file_type: The type of file to process (e.g., 'csv', 'excel', 'pdf', 'parquet')
-
-    Returns:
-        Processor instance or None if no processor is found
-    """
-    processors = {
-        'csv': CSVProcessor(),
-        'excel': ExcelProcessor(),
-        'pdf': PDFProcessor(),
-        'parquet': ParquetProcessor(),
-    }
-
-    processor = processors.get(file_type.lower())
-    if not processor:
-        logger.warning(f"No processor found for file type: {file_type}")
-
-    return processor
+from .pdf_processor import PDFProcessor
 
 
-def get_processor_for_file(file_path: str):
-    """
-    Get the appropriate processor based on the file extension.
+class ProcessorFactory:
+    """Factory for creating processor instances."""
 
-    Args:
-        file_path: Path to the file
+    @staticmethod
+    def get_processor(processor_type: str, **config) -> BaseProcessor:
+        """
+        Create and return a processor instance based on the specified type.
 
-    Returns:
-        Processor instance or None if no processor is found
-    """
-    _, ext = os.path.splitext(file_path)
-    ext = ext.lower().lstrip('.')
+        Args:
+            processor_type: Type of processor ('csv', 'excel', 'parquet', 'pdf', etc.)
+            **config: Configuration parameters for the processor
 
-    ext_mapping = {
-        'csv': 'csv',
-        'xls': 'excel',
-        'xlsx': 'excel',
-        'xlsm': 'excel',
-        'pdf': 'pdf',
-        'parquet': 'parquet',
-    }
+        Returns:
+            Appropriate BaseProcessor instance
 
-    file_type = ext_mapping.get(ext)
-    if not file_type:
-        logger.warning(f"No processor found for file extension: {ext}")
-        return None
-
-    return get_processor_for_filetype(file_type)
+        Raises:
+            ValueError: If processor_type is not supported
+        """
+        if processor_type.lower() == 'csv':
+            return CSVProcessor(**config)
+        elif processor_type.lower() == 'excel':
+            return ExcelProcessor(**config)
+        elif processor_type.lower() == 'parquet':
+            return ParquetProcessor(**config)
+        elif processor_type.lower() == 'pdf':
+            return PDFProcessor(**config)
+        else:
+            raise ValueError(f"Unsupported processor type: {processor_type}")
