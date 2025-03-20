@@ -1,9 +1,35 @@
-# config/settings/base.py - Optimized version
-from decouple import config
+# config/settings/base.py - Optimized version with proper scraper settings import
+try:
+    from decouple import config
+except ImportError:
+    try:
+        from python_decouple import config
+    except ImportError:
+        # Fallback implementation
+        import os
+        def config(name, default=None, cast=None):
+            value = os.environ.get(name, default)
+            if value is None:
+                return None
+            if cast is not None:
+                if cast == bool:
+                    return value.lower() in ('true', 't', 'yes', 'y', '1')
+                return cast(value)
+            return value
+
 import os
 from pathlib import Path
 
+# Set BASE_DIR in environment for scrapers to use
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+os.environ["DJANGO_BASE_DIR"] = str(BASE_DIR)
+
+# Set SCRAPER_STORAGE_DIR in environment
+SCRAPER_STORAGE_DIR = os.path.join(BASE_DIR, 'media', 'scraped_data')
+os.environ["SCRAPER_STORAGE_DIR"] = SCRAPER_STORAGE_DIR
+
+# Make sure the storage directory exists
+os.makedirs(SCRAPER_STORAGE_DIR, exist_ok=True)
 
 ENVIRONMENT = config('ENVIRONMENT', default='development')
 IS_DEVELOPMENT = ENVIRONMENT.lower() == 'development'
@@ -16,18 +42,8 @@ elif not SECRET_KEY:
 
 DEBUG = config('DEBUG', default='True' if IS_DEVELOPMENT else 'False', cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1' if IS_DEVELOPMENT else '').split(',')
-# Rest of your settings...
 
-
-# For admin site optimization
-ADMIN_SITE_HEADER = "Data Platform Admin"
-ADMIN_SITE_TITLE = "Data Platform"
-ADMIN_INDEX_TITLE = "Administration"
-
-# config/settings/base.py
-# Add these configurations
-
-# File storage settings
+# Storage backend settings
 STORAGE_BACKEND = os.environ.get('STORAGE_BACKEND', 'local')
 STORAGE_OPTIONS = {
     'local': {
@@ -41,13 +57,31 @@ STORAGE_OPTIONS = {
     }
 }
 
+# Enabled scrapers configuration
+ENABLED_SCRAPERS = {
+    'BNB': {
+        'module': 'apps.bg_data_scrapers.scrapers.bnb_scraper',
+        'class': 'BNBScraper',
+        'schedule': '0 0 * * *',  # Daily at midnight
+    },
+    'NSI': {
+        'module': 'apps.bg_data_scrapers.scrapers.nsi_scraper',
+        'class': 'NSIScraper',
+        'schedule': '0 0 * * 1',  # Weekly on Monday
+    }
+}
+
+# For admin site optimization
+ADMIN_SITE_HEADER = "Data Platform Admin"
+ADMIN_SITE_TITLE = "Data Platform"
+ADMIN_INDEX_TITLE = "Administration"
+
 # Celery settings
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-
 
 # Application definition
 DJANGO_APPS = [
@@ -57,6 +91,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
 ]
 
 THIRD_PARTY_APPS = [
@@ -65,6 +100,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'apps.core',
+    'apps.bg_data_scrapers',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -79,9 +115,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',  # Added for HTTP caching
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+# Required for django-debug-toolbar to work
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 TEMPLATES = [
     {
@@ -125,12 +167,9 @@ CACHES = {
     }
 }
 
-import os
-
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Used for `collectstatic`
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Place where you store static files
-
 
 # Media files
 MEDIA_URL = '/media/'
@@ -173,4 +212,19 @@ LOGGING = {
         'handlers': ['console'],
         'level': 'INFO',
     },
+}
+
+# Import scraper settings safely at the end of the file
+# after Django's app registry is fully loaded
+try:
+    from apps.bg_data_scrapers.scrapers.settings import SCRAPER_SETTINGS
+except ImportError:
+    SCRAPER_SETTINGS = {}
+
+# Scraper configurations - use values from SCRAPER_SETTINGS where appropriate
+SCRAPER_CONFIG = {
+    'STORAGE_DIR': SCRAPER_STORAGE_DIR,
+    'LOGGING_ENABLED': True,
+    'LOGGING_LEVEL': 'INFO',
+    'SCRAPER_SETTINGS': SCRAPER_SETTINGS,
 }

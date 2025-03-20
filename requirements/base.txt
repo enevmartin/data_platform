@@ -1,7 +1,7 @@
 # Django and REST framework
 django==4.2.7
 djangorestframework==3.14.0
-
+django-debug-toolbar>=4.4  # Add this line
 # FastAPI and dependencies
 fastapi==0.103.1
 uvicorn==0.23.2

@@ -10,7 +10,7 @@ SECRET_KEY = 'dev-only-insecure-key-do-not-use-in-production'
 DEBUG = True
 
 # Allow Django Debug Toolbar
-INSTALLED_APPS += ['debug_toolbar']
+# INSTALLED_APPS += ['debug_toolbar']
 MIDDLEWARE.insert(1, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 INTERNAL_IPS = ['127.0.0.1']
 
