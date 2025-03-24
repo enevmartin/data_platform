@@ -1,4 +1,3 @@
-# apps/core/storage/local.py
 import os
 from io import BytesIO
 from typing import BinaryIO, Optional
@@ -15,6 +14,9 @@ class LocalStorage(StorageInterface):
         Args:
             base_dir: Base directory for file storage
         """
+        # Convert base_dir to string if it's bytes
+        if isinstance(base_dir, bytes):
+            base_dir = base_dir.decode('utf-8')
         self.base_dir = base_dir
         os.makedirs(base_dir, exist_ok=True)
 
@@ -28,6 +30,9 @@ class LocalStorage(StorageInterface):
         Returns:
             BytesIO object containing file content or None if file doesn't exist
         """
+        # Convert file_path to string if it's bytes
+        if isinstance(file_path, bytes):
+            file_path = file_path.decode('utf-8')
         full_path = os.path.join(self.base_dir, file_path)
         if not os.path.exists(full_path):
             return None
@@ -48,6 +53,9 @@ class LocalStorage(StorageInterface):
         Returns:
             Path to the saved file
         """
+        # Convert file_path to string if it's bytes
+        if isinstance(file_path, bytes):
+            file_path = file_path.decode('utf-8')
         full_path = os.path.join(self.base_dir, file_path)
         os.makedirs(os.path.dirname(full_path), exist_ok=True)
 
@@ -55,7 +63,7 @@ class LocalStorage(StorageInterface):
             for chunk in file_obj.chunks() if hasattr(file_obj, 'chunks') else [file_obj.read()]:
                 f.write(chunk)
 
-        return file_path
+        return file_path  # Moved outside the with block
 
     def delete(self, file_path: str) -> bool:
         """
@@ -67,6 +75,9 @@ class LocalStorage(StorageInterface):
         Returns:
             True if deletion was successful, False otherwise
         """
+        # Convert file_path to string if it's bytes
+        if isinstance(file_path, bytes):
+            file_path = file_path.decode('utf-8')
         full_path = os.path.join(self.base_dir, file_path)
         if not os.path.exists(full_path):
             return False

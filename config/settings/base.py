@@ -1,45 +1,50 @@
-# config/settings/base.py - Optimized version with proper scraper settings import
 try:
     from decouple import config
 except ImportError:
     try:
         from python_decouple import config
     except ImportError:
-        # Fallback implementation
         import os
         def config(name, default=None, cast=None):
             value = os.environ.get(name, default)
             if value is None:
                 return None
-            if cast is not None:
-                if cast == bool:
-                    return value.lower() in ('true', 't', 'yes', 'y', '1')
+            if cast == bool:
+                return value.lower() in ('true', 't', 'yes', 'y', '1')
+            elif cast:
                 return cast(value)
             return value
 
 import os
 from pathlib import Path
 
-# Set BASE_DIR in environment for scrapers to use
+# Set BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-os.environ["DJANGO_BASE_DIR"] = str(BASE_DIR)
+if "DJANGO_BASE_DIR" not in os.environ:
+    os.environ["DJANGO_BASE_DIR"] = str(BASE_DIR)
 
-# Set SCRAPER_STORAGE_DIR in environment
-SCRAPER_STORAGE_DIR = os.path.join(BASE_DIR, 'media', 'scraped_data')
-os.environ["SCRAPER_STORAGE_DIR"] = SCRAPER_STORAGE_DIR
-
-# Make sure the storage directory exists
+# Set SCRAPER_STORAGE_DIR
+if "SCRAPER_STORAGE_DIR" not in os.environ:
+    SCRAPER_STORAGE_DIR = os.path.join(BASE_DIR, 'media', 'scraped_data')
+    os.environ["SCRAPER_STORAGE_DIR"] = SCRAPER_STORAGE_DIR
+else:
+    SCRAPER_STORAGE_DIR = os.environ["SCRAPER_STORAGE_DIR"]
+SCRAPED_FILES_DIR = 'scraped_data'
+# Ensure the storage directory exists
 os.makedirs(SCRAPER_STORAGE_DIR, exist_ok=True)
 
-ENVIRONMENT = config('ENVIRONMENT', default='development')
-IS_DEVELOPMENT = ENVIRONMENT.lower() == 'development'
+# Environment settings
+ENVIRONMENT = config('ENVIRONMENT', default='development').lower()
+IS_DEVELOPMENT = ENVIRONMENT == 'development'
 
-SECRET_KEY = config('SECRET_KEY')
-if not SECRET_KEY and not IS_DEVELOPMENT:
-    raise ValueError("SECRET_KEY environment variable must be set in production mode")
-elif not SECRET_KEY:
+# Secret key configuration
+SECRET_KEY = config('SECRET_KEY', default=None)
+if not SECRET_KEY:
+    if not IS_DEVELOPMENT:
+        raise ValueError("SECRET_KEY environment variable must be set in production mode")
     SECRET_KEY = 'dev-only-insecure-key-do-not-use-in-production'
 
+# Debug and allowed hosts
 DEBUG = config('DEBUG', default='True' if IS_DEVELOPMENT else 'False', cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1' if IS_DEVELOPMENT else '').split(',')
 
