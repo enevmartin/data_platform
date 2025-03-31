@@ -1,3 +1,4 @@
+# config/settings/base.py
 try:
     from decouple import config
 except ImportError:
@@ -112,14 +113,14 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.middleware.gzip.GZipMiddleware',  # Added for compression
+    'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.http.ConditionalGetMiddleware',  # Added for HTTP caching
+    'django.middleware.http.ConditionalGetMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -133,7 +134,7 @@ INTERNAL_IPS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Added central templates directory
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -157,7 +158,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'password'),
         'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
-        'CONN_MAX_AGE': 600,  # Keep connections alive for 10 minutes
+        'CONN_MAX_AGE': 600,
         'OPTIONS': {
             'connect_timeout': 10,
         },
@@ -173,8 +174,8 @@ CACHES = {
 }
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Used for `collectstatic`
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Place where you store static files
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Media files
 MEDIA_URL = '/media/'
@@ -220,11 +221,14 @@ LOGGING = {
 }
 
 # Import scraper settings safely at the end of the file
-# after Django's app registry is fully loaded
 try:
     from apps.bg_data_scrapers.scrapers.settings import SCRAPER_SETTINGS
-except ImportError:
-    SCRAPER_SETTINGS = {}
+except ImportError as e:
+    raise ImportError(f"Failed to import SCRAPER_SETTINGS from apps.bg_data_scrapers.scrapers.settings: {e}")
+
+# Update SCRAPER_SETTINGS with Django-specific storage directory
+for institution in SCRAPER_SETTINGS['INSTITUTIONS']:
+    SCRAPER_SETTINGS['INSTITUTIONS'][institution]['output_dir'] = os.path.join(SCRAPER_STORAGE_DIR, institution.lower())
 
 # Scraper configurations - use values from SCRAPER_SETTINGS where appropriate
 SCRAPER_CONFIG = {

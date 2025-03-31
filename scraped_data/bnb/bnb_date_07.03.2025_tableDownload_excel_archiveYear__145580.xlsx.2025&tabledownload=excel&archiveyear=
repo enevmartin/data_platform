@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:o="urn:schemas-microsoft-com:office:office">
+<Styles>
+<Style ss:ID="s40">
+<Alignment ss:Vertical="Bottom"/>
+<Font ss:Bold="1" ss:Color="#7A2A29" ss:Size="12" x:Family="Swiss" x:CharSet="204"/>
+</Style>
+<Style ss:ID="s23">
+<Alignment ss:WrapText="1" ss:Vertical="Center" ss:Horizontal="Center"/>
+<Borders>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Bottom"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Left"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Right"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Top"/>
+</Borders>
+<Font ss:Bold="1" ss:FontName="Arial Unicode MS"/>
+</Style>
+<Style ss:ID="s25">
+<Alignment ss:WrapText="1" ss:Vertical="Bottom"/>
+<Borders>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Bottom"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Left"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Right"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Top"/>
+</Borders>
+<Font ss:FontName="Arial Unicode MS"/>
+</Style>
+<Style ss:ID="s27">
+<Alignment ss:WrapText="1" ss:Vertical="Bottom" ss:Horizontal="Right"/>
+<Borders>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Bottom"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Left"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Right"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Top"/>
+</Borders>
+<Font ss:FontName="Arial Unicode MS"/>
+</Style>
+<Style ss:ID="s30">
+<Alignment ss:WrapText="1" ss:Vertical="Center" ss:Horizontal="Left"/>
+<Borders>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Bottom"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Left"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Right"/>
+<Border ss:Color="#000000" ss:Weight="1" ss:LineStyle="Continuous" ss:Position="Top"/>
+</Borders>
+<Font ss:FontName="Arial Unicode MS"/>
+</Style>
+</Styles>
+<Worksheet ss:Name="Information">
+<h2 style="font-size:16px; font-family:Arial; color: #7a2a29;">Седмичен баланс на управление "Емисионно" към 07.03.2025</h2>
+<Table border="1">
+<Column ss:Width="192"/>
+<Column ss:Width="47.25" ss:AutoFitWidth="0"/>
+<Column ss:Width="192"/>
+<Column ss:Width="47.25" ss:AutoFitWidth="0"/>
+<Row ss:Height="31.5" ss:AutoFitHeight="0">
+<Cell ss:StyleID="s40">
+<Data ss:Type="String">Седмичен баланс на управление "Емисионно" към 07.03.2025</Data>
+</Cell>
+</Row>
+<Row/>
+<Row>
+<Cell ss:StyleID="s23">
+<Data ss:Type="String">АКТИВИ</Data>
+</Cell>
+<Cell ss:StyleID="s23">
+<Data ss:Type="String">хил.лв.</Data>
+</Cell>
+<Cell ss:StyleID="s23">
+<Data ss:Type="String">ПАСИВИ</Data>
+</Cell>
+<Cell ss:StyleID="s23">
+<Data ss:Type="String">хил.лв.</Data>
+</Cell>
+</Row>
+<Row>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Парични средства и предоставени депозити в чужда валута</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">25381252</Data>
+</Cell>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Банкноти и монети в обращение</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">30789801</Data>
+</Cell>
+</Row>
+<Row ss:class="even">
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Монетарно злато и други инструменти в монетарно злато</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">6941236</Data>
+</Cell>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Задължения към банки</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">18419211</Data>
+</Cell>
+</Row>
+<Row>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Инвестиции в ценни книжа</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">38183941</Data>
+</Cell>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Задължения към правителството и бюджетни организации</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">5733926</Data>
+</Cell>
+</Row>
+<Row ss:class="even">
+<Cell ss:StyleID="s30">
+<Data ss:Type="String"/>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number"/>
+</Cell>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Задължения към други депозанти</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">1492652</Data>
+</Cell>
+</Row>
+<Row>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String"/>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number"/>
+</Cell>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">Депозит на управление "Банково"</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">14070839</Data>
+</Cell>
+</Row>
+<Row ss:class="even">
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">ВСИЧКО АКТИВИ:</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">70506429</Data>
+</Cell>
+<Cell ss:StyleID="s30">
+<Data ss:Type="String">ВСИЧКО ПАСИВИ:</Data>
+</Cell>
+<Cell ss:StyleID="s27">
+<Data ss:Type="Number">70506429</Data>
+</Cell>
+</Row>
+<Row>
+<Cell ss:StyleID="s30" ss:MergeAcross="3">
+<Data ss:Type="String"/>
+</Cell>
+</Row>
+</Table>
+</Worksheet>
+</Workbook>
