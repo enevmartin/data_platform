@@ -1,12 +1,12 @@
 {
-  "start_time": "2025-04-02T15:22:03.324630",
-  "end_time": "2025-04-02T15:23:46.531400",
-  "elapsed_seconds": 103.203574,
-  "pages_visited": 15,
-  "files_found": 120,
-  "files_downloaded": 98,
+  "start_time": "2025-04-07T17:33:28.854311",
+  "end_time": "2025-04-07T17:39:29.902804",
+  "elapsed_seconds": 361.047493,
+  "pages_visited": 21,
+  "files_found": 240,
+  "files_downloaded": 200,
   "files_failed": 0,
-  "download_size_bytes": 9242377,
-  "download_size_mb": 8.814217567443848,
+  "download_size_bytes": 23349572,
+  "download_size_mb": 22.267887115478516,
   "failed_downloads": []
 }
