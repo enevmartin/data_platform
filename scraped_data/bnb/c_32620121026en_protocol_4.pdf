@@ -30,7 +30,7 @@
             
  
  
-        <script type="text/javascript" src="/eurlex-frontoffice/ruxitagentjs_ICANVfgqrux_10299241001084140.js" data-dtconfig="app=47d4c64c3b67ec69|cuc=m097nmfl|agentId=f03f70d008e9c2b4|mel=100000|mb=null|featureHash=ICANVfgqrux|dpvc=1|iub=null|lastModification=1743619849173|tp=500,50,0|rdnt=1|uxrgce=1|agentUri=/eurlex-frontoffice/ruxitagentjs_ICANVfgqrux_10299241001084140.js|reportUrl=/eurlex-frontoffice/rb_39a3e95b-5423-482c-879b-99ef235dffeb|rid=RID_-191099425|rpid=567204795|domain=europa.eu"></script><script type="text/javascript" src="./../../../revamp/components/vendor/modernizr/modernizr.js?v=2.17.4"></script>
+        <script type="text/javascript" src="/eurlex-frontoffice/ruxitagentjs_ICANVfgqrux_10299241001084140.js" data-dtconfig="app=47d4c64c3b67ec69|cuc=m097nmfl|agentId=a4bebfcfa7948df|mel=100000|mb=null|featureHash=ICANVfgqrux|dpvc=1|iub=null|lastModification=1744120854102|tp=500,50,0|rdnt=1|uxrgce=1|agentUri=/eurlex-frontoffice/ruxitagentjs_ICANVfgqrux_10299241001084140.js|reportUrl=/eurlex-frontoffice/rb_39a3e95b-5423-482c-879b-99ef235dffeb|rid=RID_-191099425|rpid=-300549458|domain=europa.eu"></script><script type="text/javascript" src="./../../../revamp/components/vendor/modernizr/modernizr.js?v=2.17.4"></script>
         
  
 
@@ -2180,7 +2180,7 @@
 				</span>
 			</div>
 		<div>
-<input type="hidden" name="_csrf" value="3ea68d69-95e2-4c5b-a82f-c55f20656766" />
+<input type="hidden" name="_csrf" value="c886dfc6-eaf2-4b5e-aa47-4f997e816fef" />
 </div></form>	<form id="applyExperimentalFeatures" name="applyExperimentalFeatures" action="./../../../experimental-features.html?action=applyExperimentalFeatures" method="post">
 			<input type="hidden" value="legal-content/EN/TXT/" name="relativeRequestUrl" />
 			<input type="hidden" value="?uri=CELEX%3A12016M%2FPRO%2F04" name="queryString" />
@@ -2220,7 +2220,7 @@
 					</div>
 					<div>
 						<button  id="exp-feature-btn-apply" type="submit" class="btn btn-sm btn-primary radius5p"> Apply	</button>	</div>	</div>	</div>	<div>
-<input type="hidden" name="_csrf" value="3ea68d69-95e2-4c5b-a82f-c55f20656766" />
+<input type="hidden" name="_csrf" value="c886dfc6-eaf2-4b5e-aa47-4f997e816fef" />
 </div></form>	
 
 
@@ -2704,7 +2704,7 @@
 	
 				<div class="DistinctiveFormMessage EurlexTooltip" tabindex="0" data-toggle="tooltip" title="Please clear the other quick search options before using this one"></div>	
 			<div>
-<input type="hidden" name="_csrf" value="3ea68d69-95e2-4c5b-a82f-c55f20656766" />
+<input type="hidden" name="_csrf" value="c886dfc6-eaf2-4b5e-aa47-4f997e816fef" />
 </div></form>
 	
 			<div class="QuickSearchOptions fade sr-only">
@@ -4591,7 +4591,7 @@
                class="form-inline"
                id="form"
                name="multilingualForm"
-               method="post"><input type="hidden" name="_csrf" value="3ea68d69-95e2-4c5b-a82f-c55f20656766" /><input type="hidden" name="from" value="EN"/>
+               method="post"><input type="hidden" name="_csrf" value="c886dfc6-eaf2-4b5e-aa47-4f997e816fef" /><input type="hidden" name="from" value="EN"/>
             <div class="form-group">
                <label for="MDLang1" class="sr-only">Language 1 </label>
                <select id="MDLang1" name="lang1" class="input-sm form-control NoBorders"

@@ -1,38 +1,19 @@
-from __future__ import absolute_import, unicode_literals
 import os
-
 from celery import Celery
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-app = Celery('datahub')
+# Create the Celery app with a name that reflects your project.
+app = Celery('data-platform')
 
-# Using a string here means the worker doesn't have to serialize
-# the configuration object to child processes.
+# Load Celery configuration from Django settings (using the CELERY namespace).
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# Load task modules from all registered Django app configs.
+# Automatically discover tasks in all apps listed in INSTALLED_APPS.
 app.autodiscover_tasks()
 
+# Optional: Debug task for troubleshooting.
 @app.task(bind=True, ignore_result=True)
 def debug_task(self):
     print(f'Request: {self.request!r}')
-
-
-# In your celery.py
-
-import os
-from celery import Celery
-
-# set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')
-
-app = Celery('your_project')
-
-# Using a string here means the worker doesn't have to serialize
-# the configuration object to child processes.
-app.config_from_object('django.conf:settings', namespace='CELERY')
-
-# Load task modules from all registered Django app configs.
-app.autodiscover_tasks()

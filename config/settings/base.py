@@ -18,6 +18,7 @@ except ImportError:
 
 import os
 from pathlib import Path
+import django_redis
 
 # Set BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -82,13 +83,16 @@ ADMIN_SITE_HEADER = "Data Platform Admin"
 ADMIN_SITE_TITLE = "Data Platform"
 ADMIN_INDEX_TITLE = "Administration"
 
-# Celery settings
-USE_CELERY = True
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
+# Celery Configuration
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True  # Handle the deprecation warning
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+# Optional: If you want to store task results (not required in your case)
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 # Application definition
 DJANGO_APPS = [
@@ -167,11 +171,13 @@ DATABASES = {
     }
 }
 
-# Cache configuration
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
     }
 }
 
