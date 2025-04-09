@@ -1,4 +1,3 @@
-# config/settings/base.py
 try:
     from decouple import config
 except ImportError:
@@ -18,7 +17,6 @@ except ImportError:
 
 import os
 from pathlib import Path
-import django_redis
 
 # Set BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -64,6 +62,13 @@ STORAGE_OPTIONS = {
     }
 }
 
+# Validate S3 settings if STORAGE_BACKEND is 's3'
+if STORAGE_BACKEND == 's3':
+    required_s3_keys = ['BUCKET', 'ACCESS_KEY', 'SECRET_KEY']
+    missing_s3_keys = [key for key in required_s3_keys if not STORAGE_OPTIONS['s3'][key]]
+    if missing_s3_keys:
+        raise ValueError(f"Missing required S3 environment variables: {', '.join(missing_s3_keys)}")
+
 # Enabled scrapers configuration
 ENABLED_SCRAPERS = {
     'BNB': {
@@ -84,15 +89,13 @@ ADMIN_SITE_TITLE = "Data Platform"
 ADMIN_INDEX_TITLE = "Administration"
 
 # Celery Configuration
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
-CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True  # Handle the deprecation warning
+CELERY_BROKER_URL = 'django://'  # Use Django database as the broker
+CELERY_RESULT_BACKEND = 'django-db'  # Store task results in the database
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
-
-# Optional: If you want to store task results (not required in your case)
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 # Application definition
 DJANGO_APPS = [
@@ -107,6 +110,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'django_celery_results',  # Required for Django database broker and result backend
 ]
 
 LOCAL_APPS = [
@@ -171,13 +175,16 @@ DATABASES = {
     }
 }
 
+# Validate database settings
+required_db_keys = ['NAME', 'USER', 'PASSWORD', 'HOST', 'PORT']
+for key in required_db_keys:
+    if not DATABASES['default'][key]:
+        raise ValueError(f"Missing required database environment variable: POSTGRES_{key}")
+
 CACHES = {
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
 }
 
@@ -218,13 +225,31 @@ LOGGING = {
     },
     'handlers': {
         'console': {
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
+    'loggers': {
+        '': {  # Root logger
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'apps.data_quality': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'apps.bg_data_scrapers': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'celery': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
 }
 
