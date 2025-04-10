@@ -88,6 +88,8 @@ ADMIN_SITE_HEADER = "Data Platform Admin"
 ADMIN_SITE_TITLE = "Data Platform"
 ADMIN_INDEX_TITLE = "Administration"
 
+USE_CELERY = False
+
 # Celery Configuration
 CELERY_BROKER_URL = 'django://'  # Use Django database as the broker
 CELERY_RESULT_BACKEND = 'django-db'  # Store task results in the database
