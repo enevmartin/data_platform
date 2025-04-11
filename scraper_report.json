@@ -1,12 +1,12 @@
 {
-  "start_time": "2025-04-10T17:17:53.036791",
-  "end_time": "2025-04-10T17:19:25.241444",
-  "elapsed_seconds": 92.203647,
+  "start_time": "2025-04-11T11:18:03.617306",
+  "end_time": "2025-04-11T11:19:54.641554",
+  "elapsed_seconds": 111.022225,
   "pages_visited": 15,
   "files_found": 122,
   "files_downloaded": 100,
   "files_failed": 0,
-  "download_size_bytes": 9335155,
-  "download_size_mb": 8.902697563171387,
+  "download_size_bytes": 9335205,
+  "download_size_mb": 8.902745246887207,
   "failed_downloads": []
 }
